@@ -24,10 +24,15 @@ public class DailyPlanner {
             this.heading = heading;
         }
         this.id = count++;
-        this.description = description;
-        this.taskType = taskType;
+        setDescription(description);
+        if (taskType == null) {
+            throw new IllegalArgumentException("Тип задачи не указан!!!");
+        }else {
+            this.taskType = taskType;
+        }
+
         this.localDateTime = LocalDateTime.now();
-        this.repeatability = repeatability;
+        setRepeatability(repeatability);
     }
 
     public String getHeading() {
@@ -39,7 +44,12 @@ public class DailyPlanner {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description == null) {
+            throw new IllegalArgumentException("Описание не заполнено");
+        }else {
+            this.description = description;
+        }
+
     }
 
     public int getId() {
@@ -71,7 +81,12 @@ public class DailyPlanner {
     }
 
     public void setRepeatability(Repeatability repeatability) {
-        this.repeatability = repeatability;
+        if (repeatability == null) {
+            throw new IllegalArgumentException("Введите повторяемость!!!");
+        }else {
+            this.repeatability = repeatability;
+        }
+
     }
 
     @Override
