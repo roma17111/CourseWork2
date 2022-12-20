@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public enum Repeatability {
 
@@ -24,13 +25,13 @@ public enum Repeatability {
             System.out.println("Повторяемость однократная");
         }
         if (repeatability == DAILY) {
-            System.out.println("Следующее повторение - " + LocalDate.now().plusDays(1));
+            System.out.println("Следующее повторение - " + LocalDateTime.now().plusDays(1));
         } if (repeatability == WEEKLY) {
-            System.out.println("Следующее повторение - " + LocalDate.now().plusDays(7));
+            System.out.println("Следующее повторение - " + LocalDateTime.now().plusDays(7));
         } if (repeatability == MONTHLY) {
-            System.out.println("Следующее повторение - " + LocalDate.now().plusMonths(1));
+            System.out.println("Следующее повторение - " + LocalDateTime.now().plusMonths(1));
         } if (repeatability == ANNUAL) {
-            System.out.println("Следующее повторение - " + LocalDate.now().plusYears(1));
+            System.out.println("Следующее повторение - " + LocalDateTime.now().plusYears(1));
         }
     }
 }
