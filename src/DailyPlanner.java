@@ -4,18 +4,26 @@ import java.util.Objects;
 
 public class DailyPlanner {
 
+    private int id;
+
+    private static int count = 1;
+
     private final String heading;
     private String description;
-    private final boolean taskType;
+    private final Type taskType;
     private final LocalDateTime localDateTime;
     private Repeatability repeatability;
 
     public DailyPlanner(String heading,
                         String description,
-                        boolean taskType,
-                        LocalDateTime localDateTime,
+                        Type taskType,
                         Repeatability repeatability) {
-        this.heading = heading;
+        if (heading == null) {
+            throw new IllegalArgumentException("Добавьте название!!!");
+        }else {
+            this.heading = heading;
+        }
+        this.id = count++;
         this.description = description;
         this.taskType = taskType;
         this.localDateTime = LocalDateTime.now();
@@ -34,7 +42,23 @@ public class DailyPlanner {
         this.description = description;
     }
 
-    public boolean isTaskType() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        DailyPlanner.count = count;
+    }
+
+    public Type getTaskType() {
         return taskType;
     }
 
@@ -66,6 +90,7 @@ public class DailyPlanner {
     @Override
     public String toString() {
         return "DailyPlanner{" +
+                id +
                 "heading='" + heading + '\'' +
                 ", description='" + description + '\'' +
                 ", taskType=" + taskType +
