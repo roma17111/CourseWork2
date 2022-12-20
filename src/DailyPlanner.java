@@ -123,7 +123,7 @@ public class DailyPlanner {
         Scanner scanner = new Scanner(System.in);
         for (DailyPlanner planner : planer.keySet()) {
             planer.remove(planner, scanner.nextInt());
-            System.out.println(planner);
+            System.out.println("Вы успешно удалил обьект ");
         }
     }
 }
