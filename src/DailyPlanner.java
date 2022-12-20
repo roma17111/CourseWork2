@@ -1,37 +1,37 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class DailyPlanner {
 
-    private int id;
-
-    private static int count = 1;
 
     private final String heading;
     private String description;
     private final Type taskType;
-    private final LocalDateTime localDateTime;
+    private final LocalDate localDate;
     private Repeatability repeatability;
 
     public DailyPlanner(String heading,
                         String description,
                         Type taskType,
-                        Repeatability repeatability) {
+                        Repeatability repeatability,
+                        LocalDate localDate) {
         if (heading == null) {
             throw new IllegalArgumentException("Добавьте название!!!");
-        }else {
+        } else {
             this.heading = heading;
         }
-        this.id = count++;
         setDescription(description);
         if (taskType == null) {
             throw new IllegalArgumentException("Тип задачи не указан!!!");
-        }else {
+        } else {
             this.taskType = taskType;
         }
 
-        this.localDateTime = LocalDateTime.now();
+        this.localDate = localDate;
         setRepeatability(repeatability);
     }
 
@@ -46,34 +46,19 @@ public class DailyPlanner {
     public void setDescription(String description) {
         if (description == null) {
             throw new IllegalArgumentException("Описание не заполнено");
-        }else {
+        } else {
             this.description = description;
         }
 
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public static int getCount() {
-        return count;
-    }
-
-    public static void setCount(int count) {
-        DailyPlanner.count = count;
-    }
 
     public Type getTaskType() {
         return taskType;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDate getLocalDate() {
+        return localDate;
     }
 
     public Repeatability getRepeatability() {
@@ -83,7 +68,7 @@ public class DailyPlanner {
     public void setRepeatability(Repeatability repeatability) {
         if (repeatability == null) {
             throw new IllegalArgumentException("Введите повторяемость!!!");
-        }else {
+        } else {
             this.repeatability = repeatability;
         }
 
@@ -94,23 +79,44 @@ public class DailyPlanner {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DailyPlanner that = (DailyPlanner) o;
-        return taskType == that.taskType && heading.equals(that.heading) && description.equals(that.description) && localDateTime.equals(that.localDateTime) && repeatability == that.repeatability;
+        return heading.equals(that.heading) && description.equals(that.description) && taskType == that.taskType && localDate.equals(that.localDate) && repeatability == that.repeatability;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(heading, description, taskType, localDateTime, repeatability);
+        return Objects.hash(heading, description, taskType, localDate, repeatability);
     }
 
     @Override
     public String toString() {
-        return "DailyPlanner{" +
-                id +
-                "heading='" + heading + '\'' +
-                ", description='" + description + '\'' +
-                ", taskType=" + taskType +
-                ", localDateTime=" + localDateTime +
-                ", repeatability=" + repeatability +
-                '}';
+        return "Задача -" + "\n" +
+                "Название - " + heading + '\n' +
+                "Описание - " + description + '\n' +
+                "Тип - " + taskType.getType() +'\n' +
+                "Дата - " + localDate +'\n' +
+                "Частота повторений - " + repeatability.getNameR()
+                ;
+    }
+
+    public static void createDaily() {
+        Map<DailyPlanner, Integer> planer = new HashMap<>();
+        planer.put(new DailyPlanner("Курсовая", "Нужно сдать как можно скорее", Type.WORKED,
+                Repeatability.SINGLE,
+                LocalDate.of(2022,12,20)), 1);
+        getDailyPlan(planer);
+
+    }
+
+    private static void getDailyPlan(Map<DailyPlanner, Integer> planer ) {
+        System.out.println("Введите дату: ");
+        Scanner scanner = new Scanner(System.in);
+        LocalDate date = LocalDate.of(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+        for (DailyPlanner planner : planer.keySet()) {
+            if (planner.getLocalDate().equals(date)) {
+                System.out.println(planer);
+            }
+        }
+
+
     }
 }
