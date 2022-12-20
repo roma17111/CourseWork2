@@ -1,9 +1,18 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Map<DailyPlanner, Integer> planer = new HashMap<>();
+        planer.put(new DailyPlanner("Курсовая", "Нужно сдать как можно скорее", Type.WORKED,
+                Repeatability.SINGLE,
+                LocalDate.of(2022, 12, 20)), 1);
+
+
+
         try (Scanner scanner = new Scanner(System.in)) {
             label:
             while (true) {
@@ -16,10 +25,10 @@ public class Main {
                             inputTask(scanner);
                             break;
                         case 2:
-                            // todo: обрабатываем пункт меню 2
+                            DailyPlanner.delete(planer);
                             break;
                         case 3:
-                            DailyPlanner.createDaily();
+                            DailyPlanner.getDailyPlan(planer);
                             break;
                         case 0:
                             break label;
@@ -35,7 +44,8 @@ public class Main {
     private static void inputTask(Scanner scanner) {
         System.out.print("Введите название задачи: ");
         String taskName = scanner.next();
-        // todo
+        System.out.println("Вы добавили задачу " + taskName );
+
     }
 
     private static void printMenu() {

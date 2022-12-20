@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class DailyPlanner {
         this.localDate = localDate;
         setRepeatability(repeatability);
     }
+
 
     public String getHeading() {
         return heading;
@@ -92,31 +94,40 @@ public class DailyPlanner {
         return "Задача -" + "\n" +
                 "Название - " + heading + '\n' +
                 "Описание - " + description + '\n' +
-                "Тип - " + taskType.getType() +'\n' +
-                "Дата - " + localDate +'\n' +
+                "Тип - " + taskType.getType() + '\n' +
+                "Дата - " + localDate + '\n' +
                 "Частота повторений - " + repeatability.getNameR()
                 ;
     }
 
     public static void createDaily() {
-        Map<DailyPlanner, Integer> planer = new HashMap<>();
-        planer.put(new DailyPlanner("Курсовая", "Нужно сдать как можно скорее", Type.WORKED,
-                Repeatability.SINGLE,
-                LocalDate.of(2022,12,20)), 1);
-        getDailyPlan(planer);
+
 
     }
 
-    private static void getDailyPlan(Map<DailyPlanner, Integer> planer ) {
+    public static void getDailyPlan(Map<DailyPlanner, Integer> planer) {
         System.out.println("Введите дату: ");
         Scanner scanner = new Scanner(System.in);
         LocalDate date = LocalDate.of(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
+        System.out.println("Список задач на день6");
         for (DailyPlanner planner : planer.keySet()) {
             if (planner.getLocalDate().equals(date)) {
                 System.out.println(planer);
             }
         }
 
+    }
 
+    public static void delete(Map<DailyPlanner, Integer> planer) {
+        System.out.println("Введите значение для удаления");
+        Scanner scanner = new Scanner(System.in);
+        for (DailyPlanner planner : planer.keySet()) {
+            planer.remove(planner, scanner.nextInt());
+            System.out.println(planner);
+        }
     }
 }
+
+
+
+
