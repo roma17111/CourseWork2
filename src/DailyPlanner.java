@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -106,16 +108,23 @@ public class DailyPlanner {
     }
 
     public static void getDailyPlan(Map<DailyPlanner, Integer> planer) {
-        System.out.println("Введите дату: ");
-        Scanner scanner = new Scanner(System.in);
-        LocalDate date = LocalDate.of(scanner.nextInt(), scanner.nextInt(), scanner.nextInt());
-        System.out.println("Список задач на день6");
-        for (DailyPlanner planner : planer.keySet()) {
-            if (planner.getLocalDate().equals(date)) {
-                System.out.println(planer);
-            }
-        }
+        try {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+            LocalDate date = LocalDate.parse(JOptionPane.showInputDialog(null, "Введите дату"),
+                    dateTimeFormatter);
+
+            for (DailyPlanner planner : planer.keySet()) {
+                if (planner.getLocalDate().equals(date)) {
+                    JOptionPane.showMessageDialog(null, "задача" + planner);
+                }
+                if (!planner.getLocalDate().equals(date)) {
+                    JOptionPane.showMessageDialog(null,"Нет задач на текущую дату -" + date);
+                }
+            }
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(null,"Введены некорректные данные");
+        }
     }
 
     public static void delete(Map<DailyPlanner, Integer> planer) {
