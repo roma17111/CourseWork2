@@ -48,8 +48,8 @@ public class Main {
                         LocalDate.parse(JOptionPane.showInputDialog(null,
                                 "Введите дату"), dateTimeFormatter)),
                 Integer.valueOf(JOptionPane.showInputDialog(null, "Введите номер задания")));
-        JOptionPane.showMessageDialog(null,"Задание успешео добавлено в ваш календарь" +
-                "");
+        JOptionPane.showMessageDialog(null,"Задание успешео добавлено в ваш календарь: \n"  +
+                planer);
 
     }
 
