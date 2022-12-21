@@ -1,10 +1,9 @@
 import javax.swing.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -14,12 +13,8 @@ public class Main {
                 LocalDate.of(2022, 12, 20)), 1);
 
 
-        JOptionPane jOptionPane = new JOptionPane();
-        try (Scanner scanner = new Scanner(System.in)) {
             label:
             while (true) {
-
-
                 int menu = Integer.parseInt(JOptionPane.showInputDialog(null,
 
                         "1. Добавить задачу" + '\n' +
@@ -40,9 +35,8 @@ public class Main {
                     case 0:
                         break label;
                 }
-
             }
-        }
+
     }
 
     private static void inputTask(Map<DailyPlanner, Integer> planer) {
