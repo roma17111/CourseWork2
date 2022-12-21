@@ -128,12 +128,16 @@ public class DailyPlanner {
     }
 
     public static void delete(Map<DailyPlanner, Integer> planer) {
-        System.out.println("Введите значение для удаления");
-        Scanner scanner = new Scanner(System.in);
-        for (DailyPlanner planner : planer.keySet()) {
-            planer.remove(planner, scanner.nextInt());
-            System.out.println("Вы успешно удалил обьект ");
+
+        Integer num = Integer.valueOf(JOptionPane.showInputDialog(null,
+                "Введите номер(значение) задачи"));
+        for (Map.Entry<DailyPlanner, Integer> entry : planer.entrySet()) {
+            if (num == entry.getValue()) {
+                planer.remove(entry, num);
+            }
         }
+            JOptionPane.showMessageDialog(null, planer);
+
     }
 }
 
