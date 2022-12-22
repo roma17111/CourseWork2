@@ -1,12 +1,10 @@
 import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class DailyPlanner {
 
@@ -98,7 +96,7 @@ public class DailyPlanner {
                 "Описание - " + description + '\n' +
                 "Тип - " + taskType.getType() + '\n' +
                 "Дата - " + localDate + '\n' +
-                "Частота повторений - " + repeatability.getNameR()
+                "Частота повторений - " + repeatability.getNameR() + "\n"
                 ;
     }
 
@@ -117,11 +115,11 @@ public class DailyPlanner {
                     JOptionPane.showMessageDialog(null, "задача" + planner);
                 }
                 if (!planner.getLocalDate().equals(date)) {
-                    JOptionPane.showMessageDialog(null,"Нет задач на текущую дату -" + date);
+                    JOptionPane.showMessageDialog(null, "Нет задач на текущую дату -" + date);
                 }
             }
         } catch (DateTimeParseException e) {
-            JOptionPane.showMessageDialog(null,"Введены некорректные данные");
+            JOptionPane.showMessageDialog(null, "Введены некорректные данные");
         }
     }
 
@@ -134,14 +132,15 @@ public class DailyPlanner {
                 planer.remove(entry, num);
             }
         }
-            JOptionPane.showMessageDialog(null, planer);
+        JOptionPane.showMessageDialog(null, planer);
 
     }
+
     public static void inputTask(Map<DailyPlanner, Integer> planer) {
         DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         planer.put(new DailyPlanner(JOptionPane.showInputDialog(null, "Введите название"),
                         JOptionPane.showInputDialog(null, "Введите описание задачи"),
-                        Type.valueOf(JOptionPane.showInputDialog(null,"Введите тип задачи: \n" +
+                        Type.valueOf(JOptionPane.showInputDialog(null, "Введите тип задачи: \n" +
                                 "  WORKED(\"Рабочая\"),\n" +
                                 "    PERSONAL(\"Личная\")")),
                         Repeatability.valueOf(JOptionPane.showInputDialog(null,
@@ -154,12 +153,14 @@ public class DailyPlanner {
                         LocalDate.parse(JOptionPane.showInputDialog(null,
                                 "Введите дату"), dateTimeFormatter1)),
                 Integer.valueOf(JOptionPane.showInputDialog(null, "Введите номер задания")));
-        JOptionPane.showMessageDialog(null,"Задание успешео добавлено в ваш календарь: \n"  +
+        JOptionPane.showMessageDialog(null, "Задание успешео добавлено в ваш календарь: \n" +
                 planer);
 
-    }
 
+
+    }
 }
+
 
 
 
