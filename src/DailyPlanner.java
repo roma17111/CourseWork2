@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -8,7 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DailyPlanner {
-
 
     private final String heading;
     private String description;
@@ -34,6 +32,7 @@ public class DailyPlanner {
         }
         setLocalDate(localDate);
         setRepeatability(repeatability);
+
     }
 
 
@@ -108,7 +107,8 @@ public class DailyPlanner {
 
     }
 
-    public static void getDailyPlan(Map<DailyPlanner, Integer> planer) {
+    public static void getDailyPlan(Map<DailyPlanner, CountId> planer) {
+
         try {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             LocalDate date = LocalDate.parse(JOptionPane.showInputDialog(null, "Введите дату"),
@@ -125,28 +125,25 @@ public class DailyPlanner {
             JOptionPane.showMessageDialog(null, "Введены некорректные данные");
         } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(null, "Введены некорректные данные");
+        } catch (NullPointerException i) {
         }
 
     }
 
-    public static void delete(Map<DailyPlanner, Integer> planer) {
+    public static void delete(Map<DailyPlanner, CountId> planer) {
 
         Integer num = Integer.valueOf(JOptionPane.showInputDialog(null,
                 "Введите номер(значение) задачи"));
-        for (Map.Entry<DailyPlanner, Integer> entry : planer.entrySet()) {
-            if (num == entry.getValue()) {
-                planer.remove(entry, num);
-            }
+        for (Map.Entry<DailyPlanner, CountId> entry : planer.entrySet()) {
+            planer.remove(entry, num);
         }
         JOptionPane.showMessageDialog(null, planer);
 
     }
 
-    public static void inputTask(Map<DailyPlanner, Integer> planer) {
+    public static void inputTask(Map<DailyPlanner, CountId> planer) {
 
         try {
-
-
             Icon icon = new Icon() {
                 @Override
                 public void paintIcon(Component c, Graphics g, int x, int y) {
@@ -171,9 +168,9 @@ public class DailyPlanner {
             Type[] types = {Type.PERSONAL, Type.WORKED};
             DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             planer.put(new DailyPlanner(JOptionPane.showInputDialog(null, "Введите название",
-                            "Название",JOptionPane.INFORMATION_MESSAGE),
+                            "Название", JOptionPane.INFORMATION_MESSAGE),
                             JOptionPane.showInputDialog(null, "Введите описание задачи",
-                                    "Описание",JOptionPane.INFORMATION_MESSAGE),
+                                    "Описание", JOptionPane.INFORMATION_MESSAGE),
                             Type.valueOf(String.valueOf(JOptionPane.showInputDialog(null,
                                     "Введите тип задачи: \n" +
                                             "  WORKED(\"Рабочая\"),\n" +
@@ -192,15 +189,13 @@ public class DailyPlanner {
                             LocalDate.parse(JOptionPane.showInputDialog(null,
                                     "Введите дату \n" +
                                             "В формате (чч.мм.гггг)",
-                                    "Дата",JOptionPane.INFORMATION_MESSAGE), dateTimeFormatter1)),
-                    Integer.valueOf(JOptionPane.showInputDialog(null,
-                            "Введите номер(значение) задания",
-                           "Id",JOptionPane.INFORMATION_MESSAGE)));
+                                    "Дата", JOptionPane.INFORMATION_MESSAGE), dateTimeFormatter1)),
+                    new CountId());
             JOptionPane.showMessageDialog(null, "Задание успешео добавлено в ваш календарь"
-                   ,"Successfully",JOptionPane.INFORMATION_MESSAGE);
+                    , "Successfully", JOptionPane.INFORMATION_MESSAGE);
             JOptionPane.showMessageDialog(null,
                     "Список всех задач:  \n" +
-                    planer,"Список",JOptionPane.PLAIN_MESSAGE);
+                            planer, "Список", JOptionPane.PLAIN_MESSAGE);
 
         } catch (DateTimeParseException e) {
             JOptionPane.showMessageDialog(null, "Введена некорректная дата!!!",

@@ -11,17 +11,17 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        Map<DailyPlanner, Integer> planer = new HashMap<>();
+        Map<DailyPlanner, CountId> planer = new HashMap<>();
         planer.put(new DailyPlanner("Курсовая", "Нужно сдать как можно скорее", Type.WORKED,
                 Repeatability.SINGLE,
-                LocalDate.of(2022, 12, 20)), 1);
+                LocalDate.of(2022, 12, 20)), new CountId());
         JOptionPane.showMessageDialog(null, "Вас приветствует планировщик задач.",
                 "Добро пожаловть.", JOptionPane.INFORMATION_MESSAGE);
         createPanel(planer);
 
     }
 
-    public static void createPanel(Map<DailyPlanner, Integer> planer) {
+    public static void createPanel(Map<DailyPlanner, CountId> planer) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Выберите пункт меню");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
