@@ -170,8 +170,10 @@ public class DailyPlanner {
                     Repeatability.ANNUAL};
             Type[] types = {Type.PERSONAL, Type.WORKED};
             DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            planer.put(new DailyPlanner(JOptionPane.showInputDialog(null, "Введите название"),
-                            JOptionPane.showInputDialog(null, "Введите описание задачи"),
+            planer.put(new DailyPlanner(JOptionPane.showInputDialog(null, "Введите название",
+                            "Название",JOptionPane.INFORMATION_MESSAGE),
+                            JOptionPane.showInputDialog(null, "Введите описание задачи",
+                                    "Описание",JOptionPane.INFORMATION_MESSAGE),
                             Type.valueOf(String.valueOf(JOptionPane.showInputDialog(null,
                                     "Введите тип задачи: \n" +
                                             "  WORKED(\"Рабочая\"),\n" +
@@ -183,16 +185,22 @@ public class DailyPlanner {
                                             "    DAILY(\"Ежедневная\")\n" +
                                             "    WEEKLY(\"Еженедельная\")\n" +
                                             "    MONTHLY(\"Еженедельная\")\n" +
-                                            "    ANNUAL(\"Ежегодная\")", "Повторяемость задачи", JOptionPane.INFORMATION_MESSAGE, icon,
+                                            "    ANNUAL(\"Ежегодная\")", "Повторяемость задачи",
+                                    JOptionPane.INFORMATION_MESSAGE, icon,
                                     repeatabilities, repeatabilities[0]
                             ))),
                             LocalDate.parse(JOptionPane.showInputDialog(null,
                                     "Введите дату \n" +
-                                            "В формате (чч.мм.гггг)"), dateTimeFormatter1)),
-                    Integer.valueOf(JOptionPane.showInputDialog(null, "Введите номер задания")));
-            JOptionPane.showMessageDialog(null, "Задание успешео добавлено в ваш календарь: \n" +
+                                            "В формате (чч.мм.гггг)",
+                                    "Дата",JOptionPane.INFORMATION_MESSAGE), dateTimeFormatter1)),
+                    Integer.valueOf(JOptionPane.showInputDialog(null,
+                            "Введите номер(значение) задания",
+                           "Id",JOptionPane.INFORMATION_MESSAGE)));
+            JOptionPane.showMessageDialog(null, "Задание успешео добавлено в ваш календарь"
+                   ,"Successfully",JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null,
                     "Список всех задач:  \n" +
-                    planer);
+                    planer,"Список",JOptionPane.PLAIN_MESSAGE);
 
         } catch (DateTimeParseException e) {
             JOptionPane.showMessageDialog(null, "Введена некорректная дата!!!",

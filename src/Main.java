@@ -15,8 +15,8 @@ public class Main {
         planer.put(new DailyPlanner("Курсовая", "Нужно сдать как можно скорее", Type.WORKED,
                 Repeatability.SINGLE,
                 LocalDate.of(2022, 12, 20)), 1);
-        JOptionPane.showMessageDialog(null,"Вас приветствует планировщик задач.",
-                "Добро пожаловть.",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Вас приветствует планировщик задач.",
+                "Добро пожаловть.", JOptionPane.INFORMATION_MESSAGE);
         createPanel(planer);
 
     }
@@ -41,6 +41,7 @@ public class Main {
         frame.pack();
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+    
         jButton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -64,9 +65,8 @@ public class Main {
         jButton4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,planer);
+                JOptionPane.showMessageDialog(null, planer);
             }
         });
     }
-
 }
