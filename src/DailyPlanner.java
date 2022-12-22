@@ -144,7 +144,8 @@ public class DailyPlanner {
                     }
                 }
             }
-            JOptionPane.showMessageDialog(null, planer);
+            JOptionPane.showMessageDialog(null, "Задача под номером " + num +
+                    " удалена");
         } catch (ConcurrentModificationException c) {
 
         }

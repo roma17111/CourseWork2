@@ -1,10 +1,8 @@
 import javax.swing.*;
-import javax.swing.text.html.Option;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +13,8 @@ public class Main {
         planer.put(new DailyPlanner("Курсовая", "Нужно сдать как можно скорее", Type.WORKED,
                 Repeatability.SINGLE,
                 LocalDate.of(2022, 12, 20)), new CountId());
+
+        
         JOptionPane.showMessageDialog(null, "Вас приветствует планировщик задач.",
                 "Добро пожаловть.", JOptionPane.INFORMATION_MESSAGE);
         createPanel(planer);
