@@ -3,6 +3,7 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.Objects;
 
@@ -131,14 +132,22 @@ public class DailyPlanner {
     }
 
     public static void delete(Map<DailyPlanner, CountId> planer) {
+        try {
 
-        Integer num = Integer.valueOf(JOptionPane.showInputDialog(null,
-                "Введите номер(значение) задачи"));
-        for (Map.Entry<DailyPlanner, CountId> entry : planer.entrySet()) {
-            planer.remove(entry, num);
+
+            Integer num = Integer.valueOf(JOptionPane.showInputDialog(null,
+                    "Введите номер(значение) задачи"));
+            for (DailyPlanner dailyPlanner : planer.keySet()) {
+                for (CountId countId : planer.values()) {
+                    if (num == countId.getId()) {
+                        planer.remove(dailyPlanner, countId);
+                    }
+                }
+            }
+            JOptionPane.showMessageDialog(null, planer);
+        } catch (ConcurrentModificationException c) {
+
         }
-        JOptionPane.showMessageDialog(null, planer);
-
     }
 
     public static void inputTask(Map<DailyPlanner, CountId> planer) {
