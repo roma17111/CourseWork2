@@ -110,10 +110,8 @@ public class DailyPlanner {
     public static void getDailyPlan(Map<DailyPlanner, Integer> planer) {
         try {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
             LocalDate date = LocalDate.parse(JOptionPane.showInputDialog(null, "Введите дату"),
                     dateTimeFormatter);
-
             for (DailyPlanner planner : planer.keySet()) {
                 if (planner.getLocalDate().equals(date)) {
                     JOptionPane.showMessageDialog(null, "задача" + planner);
@@ -139,6 +137,28 @@ public class DailyPlanner {
             JOptionPane.showMessageDialog(null, planer);
 
     }
+    public static void inputTask(Map<DailyPlanner, Integer> planer) {
+        DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        planer.put(new DailyPlanner(JOptionPane.showInputDialog(null, "Введите название"),
+                        JOptionPane.showInputDialog(null, "Введите описание задачи"),
+                        Type.valueOf(JOptionPane.showInputDialog(null,"Введите тип задачи: \n" +
+                                "  WORKED(\"Рабочая\"),\n" +
+                                "    PERSONAL(\"Личная\")")),
+                        Repeatability.valueOf(JOptionPane.showInputDialog(null,
+                                "Введите повторяемость задачи: \n" +
+                                        " SINGLE(\"Однократная\")\n" +
+                                        "    DAILY(\"Ежедневная\")\n" +
+                                        "    WEEKLY(\"Еженедельная\")\n" +
+                                        "    MONTHLY(\"Еженедельная\")\n" +
+                                        "    ANNUAL(\"Ежегодная\")")),
+                        LocalDate.parse(JOptionPane.showInputDialog(null,
+                                "Введите дату"), dateTimeFormatter1)),
+                Integer.valueOf(JOptionPane.showInputDialog(null, "Введите номер задания")));
+        JOptionPane.showMessageDialog(null,"Задание успешео добавлено в ваш календарь: \n"  +
+                planer);
+
+    }
+
 }
 
 
