@@ -1,6 +1,9 @@
+import javax.print.DocFlavor;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CountId {
+public class CountId implements Serializable {
+    private static final long serialVersionUID = 1L;
     private static Integer count = 1;
     private final Integer id;
 

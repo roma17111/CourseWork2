@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -7,7 +8,9 @@ import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.Objects;
 
-public class DailyPlanner {
+public class DailyPlanner implements Serializable {
+    private static final long serialVersionUID = 1L;
+
 
     private final String heading;
     private String description;
@@ -103,6 +106,7 @@ public class DailyPlanner {
                 ;
     }
 
+
     public static void createDaily() {
 
 
@@ -111,6 +115,7 @@ public class DailyPlanner {
     public static void getDailyPlan(Map<DailyPlanner, CountId> planer) {
 
         try {
+
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             LocalDate date = LocalDate.parse(JOptionPane.showInputDialog(null, "Введите дату"),
                     dateTimeFormatter);
@@ -120,6 +125,7 @@ public class DailyPlanner {
                 }
                 if (!planner.getLocalDate().equals(date)) {
                     JOptionPane.showMessageDialog(null, "Нет задач на текущую дату -" + date);
+
                 }
             }
         } catch (DateTimeParseException e) {
@@ -128,30 +134,21 @@ public class DailyPlanner {
             JOptionPane.showMessageDialog(null, "Введены некорректные данные");
         } catch (NullPointerException i) {
         }
-
     }
 
-    public static void delete(Map<DailyPlanner, CountId> planer) {
+    public static void delete(Map<DailyPlanner, CountId> planer) throws IOException, ClassNotFoundException {
         try {
+            File file = new File(JOptionPane.showInputDialog(null,
+                    "Введите имя файла для удаления"));
 
-
-            Integer num = Integer.valueOf(JOptionPane.showInputDialog(null,
-                    "Введите номер(значение) задачи"));
-            for (DailyPlanner dailyPlanner : planer.keySet()) {
-                for (CountId countId : planer.values()) {
-                    if (num == countId.getId()) {
-                        planer.remove(dailyPlanner, countId);
-                    }
-                }
-            }
-            JOptionPane.showMessageDialog(null, "Задача под номером " + num +
-                    " удалена");
-        } catch (ConcurrentModificationException c) {
+            file.delete();
+            JOptionPane.showMessageDialog(null, "Файл удалён!");
+        } catch (NullPointerException e) {
 
         }
     }
 
-    public static void inputTask(Map<DailyPlanner, CountId> planer) {
+    public static void inputTask(Map<DailyPlanner, CountId> planer) throws IOException {
 
         try {
             Icon icon = new Icon() {
@@ -170,6 +167,9 @@ public class DailyPlanner {
                     return 0;
                 }
             };
+            FileOutputStream fileOutputStream = new FileOutputStream(JOptionPane.showInputDialog(null,
+                    "Введите название файла"));
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             Repeatability[] repeatabilities = {Repeatability.SINGLE,
                     Repeatability.DAILY,
                     Repeatability.WEEKLY,
@@ -177,7 +177,8 @@ public class DailyPlanner {
                     Repeatability.ANNUAL};
             Type[] types = {Type.PERSONAL, Type.WORKED};
             DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            planer.put(new DailyPlanner(JOptionPane.showInputDialog(null, "Введите название",
+            planer.put(new DailyPlanner(JOptionPane.showInputDialog(null, "Введите название " +
+                                    "задачи",
                             "Название", JOptionPane.INFORMATION_MESSAGE),
                             JOptionPane.showInputDialog(null, "Введите описание задачи",
                                     "Описание", JOptionPane.INFORMATION_MESSAGE),
@@ -201,11 +202,14 @@ public class DailyPlanner {
                                             "В формате (чч.мм.гггг)",
                                     "Дата", JOptionPane.INFORMATION_MESSAGE), dateTimeFormatter1)),
                     new CountId());
+            objectOutputStream.writeObject(planer);
+            objectOutputStream.close();
             JOptionPane.showMessageDialog(null, "Задание успешео добавлено в ваш календарь"
                     , "Successfully", JOptionPane.INFORMATION_MESSAGE);
             JOptionPane.showMessageDialog(null,
                     "Список всех задач:  \n" +
                             planer, "Список", JOptionPane.PLAIN_MESSAGE);
+
 
         } catch (DateTimeParseException e) {
             JOptionPane.showMessageDialog(null, "Введена некорректная дата!!!",
@@ -215,6 +219,9 @@ public class DailyPlanner {
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalArgumentException i) {
             JOptionPane.showMessageDialog(null, "Введены некорректные данные!!!",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(null, "Файл не создан!!!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
