@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -12,7 +13,7 @@ public class DailyPlanner {
     private final String heading;
     private String description;
     private final Type taskType;
-    private final LocalDate localDate;
+    private LocalDate localDate;
     private Repeatability repeatability;
 
     public DailyPlanner(String heading,
@@ -31,8 +32,7 @@ public class DailyPlanner {
         } else {
             this.taskType = taskType;
         }
-
-        this.localDate = localDate;
+        setLocalDate(localDate);
         setRepeatability(repeatability);
     }
 
@@ -54,6 +54,9 @@ public class DailyPlanner {
 
     }
 
+    public void setLocalDate(LocalDate localDate) {
+        this.localDate = localDate;
+    }
 
     public Type getTaskType() {
         return taskType;
@@ -120,7 +123,10 @@ public class DailyPlanner {
             }
         } catch (DateTimeParseException e) {
             JOptionPane.showMessageDialog(null, "Введены некорректные данные");
+        } catch (NumberFormatException n) {
+            JOptionPane.showMessageDialog(null, "Введены некорректные данные");
         }
+
     }
 
     public static void delete(Map<DailyPlanner, Integer> planer) {
@@ -137,27 +143,67 @@ public class DailyPlanner {
     }
 
     public static void inputTask(Map<DailyPlanner, Integer> planer) {
-        DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        planer.put(new DailyPlanner(JOptionPane.showInputDialog(null, "Введите название"),
-                        JOptionPane.showInputDialog(null, "Введите описание задачи"),
-                        Type.valueOf(JOptionPane.showInputDialog(null, "Введите тип задачи: \n" +
-                                "  WORKED(\"Рабочая\"),\n" +
-                                "    PERSONAL(\"Личная\")")),
-                        Repeatability.valueOf(JOptionPane.showInputDialog(null,
-                                "Введите повторяемость задачи: \n" +
-                                        " SINGLE(\"Однократная\")\n" +
-                                        "    DAILY(\"Ежедневная\")\n" +
-                                        "    WEEKLY(\"Еженедельная\")\n" +
-                                        "    MONTHLY(\"Еженедельная\")\n" +
-                                        "    ANNUAL(\"Ежегодная\")")),
-                        LocalDate.parse(JOptionPane.showInputDialog(null,
-                                "Введите дату"), dateTimeFormatter1)),
-                Integer.valueOf(JOptionPane.showInputDialog(null, "Введите номер задания")));
-        JOptionPane.showMessageDialog(null, "Задание успешео добавлено в ваш календарь: \n" +
-                planer);
+
+        try {
 
 
+            Icon icon = new Icon() {
+                @Override
+                public void paintIcon(Component c, Graphics g, int x, int y) {
 
+                }
+
+                @Override
+                public int getIconWidth() {
+                    return 0;
+                }
+
+                @Override
+                public int getIconHeight() {
+                    return 0;
+                }
+            };
+            Repeatability[] repeatabilities = {Repeatability.SINGLE,
+                    Repeatability.DAILY,
+                    Repeatability.WEEKLY,
+                    Repeatability.MONTHLY,
+                    Repeatability.ANNUAL};
+            Type[] types = {Type.PERSONAL, Type.WORKED};
+            DateTimeFormatter dateTimeFormatter1 = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+            planer.put(new DailyPlanner(JOptionPane.showInputDialog(null, "Введите название"),
+                            JOptionPane.showInputDialog(null, "Введите описание задачи"),
+                            Type.valueOf(String.valueOf(JOptionPane.showInputDialog(null,
+                                    "Введите тип задачи: \n" +
+                                            "  WORKED(\"Рабочая\"),\n" +
+                                            "    PERSONAL(\"Личная\")", "Тип задачи",
+                                    JOptionPane.INFORMATION_MESSAGE, icon, types, types[0]))),
+                            Repeatability.valueOf(String.valueOf(JOptionPane.showInputDialog(null,
+                                    "Введите повторяемость для задачи: \n" +
+                                            "SINGLE(\"Однократная\")\n" +
+                                            "    DAILY(\"Ежедневная\")\n" +
+                                            "    WEEKLY(\"Еженедельная\")\n" +
+                                            "    MONTHLY(\"Еженедельная\")\n" +
+                                            "    ANNUAL(\"Ежегодная\")", "Повторяемость задачи", JOptionPane.INFORMATION_MESSAGE, icon,
+                                    repeatabilities, repeatabilities[0]
+                            ))),
+                            LocalDate.parse(JOptionPane.showInputDialog(null,
+                                    "Введите дату \n" +
+                                            "В формате (чч.мм.гггг)"), dateTimeFormatter1)),
+                    Integer.valueOf(JOptionPane.showInputDialog(null, "Введите номер задания")));
+            JOptionPane.showMessageDialog(null, "Задание успешео добавлено в ваш календарь: \n" +
+                    "Список всех задач:  \n" +
+                    planer);
+
+        } catch (DateTimeParseException e) {
+            JOptionPane.showMessageDialog(null, "Введена некорректная дата!!!",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+        } catch (NullPointerException n) {
+            JOptionPane.showMessageDialog(null, "Введены некорректные данные!!!",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalArgumentException i) {
+            JOptionPane.showMessageDialog(null, "Введены некорректные данные!!!",
+                    "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
 

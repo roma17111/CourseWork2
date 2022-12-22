@@ -17,9 +17,6 @@ public class Main {
                 LocalDate.of(2022, 12, 20)), 1);
         createPanel(planer);
 
-
-
-
     }
 
     public static void createPanel(Map<DailyPlanner, Integer> planer) {
