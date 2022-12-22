@@ -15,6 +15,8 @@ public class Main {
         planer.put(new DailyPlanner("Курсовая", "Нужно сдать как можно скорее", Type.WORKED,
                 Repeatability.SINGLE,
                 LocalDate.of(2022, 12, 20)), 1);
+        JOptionPane.showMessageDialog(null,"Вас приветствует планировщик задач.",
+                "Добро пожаловть.",JOptionPane.INFORMATION_MESSAGE);
         createPanel(planer);
 
     }
