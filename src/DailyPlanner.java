@@ -4,6 +4,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.Objects;
@@ -167,8 +168,11 @@ public class DailyPlanner implements Serializable {
                     return 0;
                 }
             };
-            FileOutputStream fileOutputStream = new FileOutputStream(JOptionPane.showInputDialog(null,
+            ArrayList<File> files = new ArrayList<>();
+            File file = new File(JOptionPane.showInputDialog(null,
                     "Введите название файла"));
+            files.add(file);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             Repeatability[] repeatabilities = {Repeatability.SINGLE,
                     Repeatability.DAILY,
