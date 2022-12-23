@@ -244,8 +244,7 @@ public class DailyPlanner implements Serializable {
             JOptionPane.showMessageDialog(null, "Введена некорректная дата!!!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         } catch (NullPointerException n) {
-            JOptionPane.showMessageDialog(null, "Введены некорректные данные!!!",
-                    "ERROR", JOptionPane.ERROR_MESSAGE);
+
         } catch (IllegalArgumentException i) {
             JOptionPane.showMessageDialog(null, "Введены некорректные данные!!!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
