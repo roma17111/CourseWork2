@@ -185,7 +185,7 @@ public class DailyPlanner implements Serializable {
                 }
             };
             FileOutputStream fileOutputStream = new FileOutputStream((File) JOptionPane.showInputDialog(null,
-                    "Выберите номер ячейки ","Файл",JOptionPane.INFORMATION_MESSAGE,icon,files,files[0]));
+                    "Выберите номер ячейки для перезаписи ","Файл",JOptionPane.INFORMATION_MESSAGE,icon,files,files[0]));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             Repeatability[] repeatabilities = {Repeatability.SINGLE,
                     Repeatability.DAILY,
@@ -221,7 +221,7 @@ public class DailyPlanner implements Serializable {
                     new CountId());
             objectOutputStream.writeObject(planer);
             objectOutputStream.close();
-            JOptionPane.showMessageDialog(null, "Задание успешео добавлено в ваш календарь"
+            JOptionPane.showMessageDialog(null, "Задание успешно добавлено в ваш календарь"
                     , "Successfully", JOptionPane.INFORMATION_MESSAGE);
             JOptionPane.showMessageDialog(null,
                     "Список всех задач:  \n" +
