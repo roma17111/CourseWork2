@@ -41,7 +41,8 @@ public class Main {
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         objectInputStream.close();
 
-        JOptionPane.showMessageDialog(null, "Вас приветствует планировщик задач.",
+        JOptionPane.showMessageDialog(null,
+                "Вас приветствует планировщик задач от Романа и Вероники.\n",
                 "Добро пожаловть.", JOptionPane.INFORMATION_MESSAGE);
 
         createPanel(planer,files);
@@ -106,7 +107,7 @@ public class Main {
                 try {
                     print(planer,files);
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "ERROR!!!",
+                    JOptionPane.showMessageDialog(null, "ЯЧЕЙКА ПУСТАЯ!!!",
                             "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (ClassNotFoundException ex) {
                     throw new RuntimeException(ex);

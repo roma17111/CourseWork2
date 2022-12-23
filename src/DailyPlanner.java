@@ -200,12 +200,12 @@ public class DailyPlanner implements Serializable {
                             JOptionPane.showInputDialog(null, "Введите описание задачи",
                                     "Описание", JOptionPane.INFORMATION_MESSAGE),
                             Type.valueOf(String.valueOf(JOptionPane.showInputDialog(null,
-                                    "Введите тип задачи: \n" +
+                                    "Выберите тип задачи: \n" +
                                             "  WORKED(\"Рабочая\"),\n" +
                                             "    PERSONAL(\"Личная\")", "Тип задачи",
                                     JOptionPane.INFORMATION_MESSAGE, icon, types, types[0]))),
                             Repeatability.valueOf(String.valueOf(JOptionPane.showInputDialog(null,
-                                    "Введите повторяемость для задачи: \n" +
+                                    "Выберите повторяемость для задачи: \n" +
                                             "SINGLE(\"Однократная\")\n" +
                                             "    DAILY(\"Ежедневная\")\n" +
                                             "    WEEKLY(\"Еженедельная\")\n" +
