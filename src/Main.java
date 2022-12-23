@@ -45,11 +45,11 @@ public class Main {
                 "Вас приветствует планировщик задач от Романа и Вероники.\n",
                 "Добро пожаловть.", JOptionPane.INFORMATION_MESSAGE);
 
-        createPanel(planer,files);
+        createPanel(planer, files);
 
     }
 
-    public static void createPanel(Map<DailyPlanner, CountId> planer,File[] files) {
+    public static void createPanel(Map<DailyPlanner, CountId> planer, File[] files) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("Выберите пункт меню");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -76,7 +76,7 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
 
                 try {
-                    DailyPlanner.inputTask(planer,files);
+                    DailyPlanner.inputTask(planer, files);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -87,7 +87,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    DailyPlanner.delete(planer,files);
+                    DailyPlanner.delete(planer, files);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {
@@ -105,7 +105,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    print(planer,files);
+                    print(planer, files);
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(null, "ЯЧЕЙКА ПУСТАЯ!!!",
                             "Error", JOptionPane.ERROR_MESSAGE);
@@ -116,7 +116,7 @@ public class Main {
         });
     }
 
-    public static void print(Map<DailyPlanner, CountId> planer,File[] files) throws IOException, ClassNotFoundException {
+    public static void print(Map<DailyPlanner, CountId> planer, File[] files) throws IOException, ClassNotFoundException {
         try {
             Icon icon = new Icon() {
                 @Override
@@ -135,7 +135,7 @@ public class Main {
                 }
             };
             FileInputStream fileInputStream = new FileInputStream((File) JOptionPane.showInputDialog(null,
-                    "Выберите ячейку","Файл",JOptionPane.INFORMATION_MESSAGE,icon,files,files[0]));
+                    "Выберите ячейку", "Файл", JOptionPane.INFORMATION_MESSAGE, icon, files, files[0]));
 
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             planer = (Map<DailyPlanner, CountId>) objectInputStream.readObject();
@@ -144,9 +144,6 @@ public class Main {
                 objectInputStream.close();
             }
         } catch (NullPointerException n) {
-
         }
-
-
     }
 }

@@ -24,7 +24,7 @@ public class DailyPlanner implements Serializable {
                         Type taskType,
                         Repeatability repeatability,
                         LocalDate localDate) {
-        if (heading == null) {
+        if (heading == null || heading.isEmpty()) {
             throw new IllegalArgumentException("Добавьте название!!!");
         } else {
             this.heading = heading;
@@ -50,8 +50,8 @@ public class DailyPlanner implements Serializable {
     }
 
     public void setDescription(String description) {
-        if (description == null) {
-            throw new IllegalArgumentException("Описание не заполнено");
+        if (description == null || description.isEmpty()) {
+            throw new IllegalArgumentException();
         } else {
             this.description = description;
         }
@@ -75,7 +75,7 @@ public class DailyPlanner implements Serializable {
     }
 
     public void setRepeatability(Repeatability repeatability) {
-        if (repeatability == null) {
+        if (repeatability == null || repeatability.equals(JOptionPane.CLOSED_OPTION)) {
             throw new IllegalArgumentException("Введите повторяемость!!!");
         } else {
             this.repeatability = repeatability;
@@ -158,7 +158,19 @@ public class DailyPlanner implements Serializable {
             File file = new File(String.valueOf(JOptionPane.showInputDialog(null,
                     "Выберите ячейку для удаления","файл",JOptionPane.INFORMATION_MESSAGE,icon,
                     files,files[0])));
-            file.delete();
+            if (file == null) {
+                throw new NullPointerException();
+            }
+           int res = JOptionPane.showConfirmDialog(null, "Вы уверены?",
+                    "Окно подтверждения", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (res == JOptionPane.YES_OPTION) {
+                file.delete();
+            }
+            if (res == JOptionPane.NO_OPTION) {
+                throw new NullPointerException();
+            } if (res == JOptionPane.CLOSED_OPTION) {
+                throw new NullPointerException();
+            }
             JOptionPane.showMessageDialog(null, "Файл удалён!");
         } catch (NullPointerException e) {
 
