@@ -1,10 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
 import java.util.Objects;
@@ -137,11 +137,27 @@ public class DailyPlanner implements Serializable {
         }
     }
 
-    public static void delete(Map<DailyPlanner, CountId> planer) throws IOException, ClassNotFoundException {
+    public static void delete(Map<DailyPlanner, CountId> planer,File[] files) throws IOException, ClassNotFoundException {
         try {
-            File file = new File(JOptionPane.showInputDialog(null,
-                    "Введите имя файла для удаления"));
+            Icon icon = new Icon() {
+                @Override
+                public void paintIcon(Component c, Graphics g, int x, int y) {
 
+                }
+
+                @Override
+                public int getIconWidth() {
+                    return 0;
+                }
+
+                @Override
+                public int getIconHeight() {
+                    return 0;
+                }
+            };
+            File file = new File(String.valueOf(JOptionPane.showInputDialog(null,
+                    "Выберите ячейку для удаления","файл",JOptionPane.INFORMATION_MESSAGE,icon,
+                    files,files[0])));
             file.delete();
             JOptionPane.showMessageDialog(null, "Файл удалён!");
         } catch (NullPointerException e) {
@@ -149,7 +165,7 @@ public class DailyPlanner implements Serializable {
         }
     }
 
-    public static void inputTask(Map<DailyPlanner, CountId> planer) throws IOException {
+    public static void inputTask(Map<DailyPlanner, CountId> planer,File[] files) throws IOException {
 
         try {
             Icon icon = new Icon() {
@@ -168,11 +184,8 @@ public class DailyPlanner implements Serializable {
                     return 0;
                 }
             };
-            ArrayList<File> files = new ArrayList<>();
-            File file = new File(JOptionPane.showInputDialog(null,
-                    "Введите название файла"));
-            files.add(file);
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            FileOutputStream fileOutputStream = new FileOutputStream((File) JOptionPane.showInputDialog(null,
+                    "Выберите номер ячейки ","Файл",JOptionPane.INFORMATION_MESSAGE,icon,files,files[0]));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             Repeatability[] repeatabilities = {Repeatability.SINGLE,
                     Repeatability.DAILY,
