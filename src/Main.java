@@ -44,9 +44,7 @@ public class Main {
         JOptionPane.showMessageDialog(null,
                 "Вас приветствует планировщик задач от Романа и Вероники.\n",
                 "Добро пожаловть.", JOptionPane.INFORMATION_MESSAGE);
-
         createPanel(planer, files);
-
     }
 
     public static void createPanel(Map<DailyPlanner, CountId> planer, File[] files) {
@@ -98,7 +96,7 @@ public class Main {
         jButton3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                DailyPlanner.getDailyPlan(planer);
+                DailyPlanner.getDailyPlan(planer,files);
             }
         });
         jButton4.addActionListener(new ActionListener() {
@@ -136,7 +134,6 @@ public class Main {
             };
             FileInputStream fileInputStream = new FileInputStream((File) JOptionPane.showInputDialog(null,
                     "Выберите ячейку", "Файл", JOptionPane.INFORMATION_MESSAGE, icon, files, files[0]));
-
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             planer = (Map<DailyPlanner, CountId>) objectInputStream.readObject();
             for (Map.Entry<DailyPlanner, CountId> entry : planer.entrySet()) {

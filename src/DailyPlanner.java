@@ -88,7 +88,9 @@ public class DailyPlanner implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DailyPlanner that = (DailyPlanner) o;
-        return heading.equals(that.heading) && description.equals(that.description) && taskType == that.taskType && localDate.equals(that.localDate) && repeatability == that.repeatability;
+        return heading.equals(that.heading) && description.equals(that.description)
+                && taskType == that.taskType && localDate.equals(that.localDate)
+                && repeatability == that.repeatability;
     }
 
     @Override
@@ -113,20 +115,43 @@ public class DailyPlanner implements Serializable {
 
     }
 
-    public static void getDailyPlan(Map<DailyPlanner, CountId> planer) {
-
+    public static void getDailyPlan(Map<DailyPlanner, CountId> planer,File[] files) {
         try {
+            Icon icon = new Icon() {
+                @Override
+                public void paintIcon(Component c, Graphics g, int x, int y) {
+
+                }
+
+                @Override
+                public int getIconWidth() {
+                    return 0;
+                }
+
+                @Override
+                public int getIconHeight() {
+                    return 0;
+                }
+            };
+            FileInputStream fileInputStream = new FileInputStream((File) JOptionPane.showInputDialog(null,
+                    "Выберите ячейку", "Файл", JOptionPane.INFORMATION_MESSAGE, icon, files, files[0]));
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
             LocalDate date = LocalDate.parse(JOptionPane.showInputDialog(null, "Введите дату"),
                     dateTimeFormatter);
-            for (DailyPlanner planner : planer.keySet()) {
-                if (planner.getLocalDate().equals(date)) {
-                    JOptionPane.showMessageDialog(null, "задача" + planner);
-                }
-                if (!planner.getLocalDate().equals(date)) {
-                    JOptionPane.showMessageDialog(null, "Нет задач на текущую дату -" + date);
 
+            planer = (Map<DailyPlanner, CountId>) objectInputStream.readObject();
+            for (Map.Entry<DailyPlanner, CountId> entry : planer.entrySet()) {
+                JOptionPane.showMessageDialog(null, entry);
+                if (entry.getKey().getLocalDate().equals(date)) {
+                    entry.getKey().getRepeatability().nextDate(entry.getKey().getLocalDate());
+                    JOptionPane.showMessageDialog(null, "задача" + entry);
+
+                    if (!entry.getKey().getLocalDate().equals(date)) {
+                        JOptionPane.showMessageDialog(null, "Нет задач на текущую дату -" + date);
+                        objectInputStream.close();
+                    }
                 }
             }
         } catch (DateTimeParseException e) {
@@ -134,10 +159,16 @@ public class DailyPlanner implements Serializable {
         } catch (NumberFormatException n) {
             JOptionPane.showMessageDialog(null, "Введены некорректные данные");
         } catch (NullPointerException i) {
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public static void delete(Map<DailyPlanner, CountId> planer,File[] files) throws IOException, ClassNotFoundException {
+    public static void delete(Map<DailyPlanner, CountId> planer, File[] files) throws IOException, ClassNotFoundException {
         try {
             Icon icon = new Icon() {
                 @Override
@@ -156,19 +187,17 @@ public class DailyPlanner implements Serializable {
                 }
             };
             File file = new File(String.valueOf(JOptionPane.showInputDialog(null,
-                    "Выберите ячейку для удаления","файл",JOptionPane.INFORMATION_MESSAGE,icon,
-                    files,files[0])));
-            if (file == null) {
-                throw new NullPointerException();
-            }
-           int res = JOptionPane.showConfirmDialog(null, "Вы уверены?",
+                    "Выберите ячейку для удаления", "файл", JOptionPane.INFORMATION_MESSAGE, icon,
+                    files, files[0])));
+            int res = JOptionPane.showConfirmDialog(null, "Вы уверены?",
                     "Окно подтверждения", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (res == JOptionPane.YES_OPTION) {
                 file.delete();
             }
             if (res == JOptionPane.NO_OPTION) {
                 throw new NullPointerException();
-            } if (res == JOptionPane.CLOSED_OPTION) {
+            }
+            if (res == JOptionPane.CLOSED_OPTION) {
                 throw new NullPointerException();
             }
             JOptionPane.showMessageDialog(null, "Файл удалён!");
@@ -177,7 +206,7 @@ public class DailyPlanner implements Serializable {
         }
     }
 
-    public static void inputTask(Map<DailyPlanner, CountId> planer,File[] files) throws IOException {
+    public static void inputTask(Map<DailyPlanner, CountId> planer, File[] files) throws IOException {
 
         try {
             Icon icon = new Icon() {
@@ -197,7 +226,7 @@ public class DailyPlanner implements Serializable {
                 }
             };
             FileOutputStream fileOutputStream = new FileOutputStream((File) JOptionPane.showInputDialog(null,
-                    "Выберите номер ячейки для перезаписи ","Файл",JOptionPane.INFORMATION_MESSAGE,icon,files,files[0]));
+                    "Выберите номер ячейки для перезаписи ", "Файл", JOptionPane.INFORMATION_MESSAGE, icon, files, files[0]));
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             Repeatability[] repeatabilities = {Repeatability.SINGLE,
                     Repeatability.DAILY,
@@ -244,7 +273,6 @@ public class DailyPlanner implements Serializable {
             JOptionPane.showMessageDialog(null, "Введена некорректная дата!!!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
         } catch (NullPointerException n) {
-
         } catch (IllegalArgumentException i) {
             JOptionPane.showMessageDialog(null, "Введены некорректные данные!!!",
                     "ERROR", JOptionPane.ERROR_MESSAGE);
